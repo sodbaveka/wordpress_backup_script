@@ -1,37 +1,37 @@
 #!/bin/bash
 
-# ssh -t $1@$2 '
-# testfunction()
-# {
-# 	sudo touch ~/test02.txt && echo "Sauvegarde du fichier de configuration effectuée";
-# }
+# my backups will use these filenames.
+NOW=$(date +"%Y-%m-%d-%H%M")
+db_backup_name="wp-db-backup-$NOW.sql.gz"
+wpfiles_backup_name="wp-files-backup-$NOW.tar.gz"
+WWW_TRANSFORM='s,^var/www/wordpress,wordpress,'
 
-# addstudent()
-# {
-#         sudo groupadd students 2>> /var/log/newscriptlog.txt;
-# 	student="student-$id1-$id2";
-# 	sudo useradd --create-home --groups students --shell /bin/bash $student 2>> /var/log/newscriptlog.txt && password='password' && sudo echo -e "$student:$password\n$student:$password" | sudo chpasswd && echo "Nouvel utilisateur $student créé";
-# }
+# path to my backup folder.
+backup_folder_path="/home/theseus/wp_backup"
 
-# addsoftwares()
-# {
-# 	sudo apt-get update;
-# 	sudo apt-get install -y -qq vlc libreoffice sudo smbclient cifs-utils;
-# }
+# path to my WordPress website
+wp_folder="/var/www/wordpress"
 
-# mountdata()
-# {
-# 	sudo mkdir -p /mnt/sambaShared && echo "Répertoire /mnt/sambaShared créé";
-# 	sudo chown invite:invite /mnt/sambaShared;
-# 	sudo chmod -R 777 /mnt/sambaShared;
-# 	sudo mount -t cifs -o rw,guest //192.168.0.2/shared /mnt/sambaShared && echo "Partage effectué";
-# }
+# database connection info.
+db_name="WordPress"
+db_username="theseus"
+db_password="theseus"
 
-# sudo touch /var/log/wpbackuplog.txt;
-# sudo chmod 766 /var/log/wpbackuplog.txt;
-# testfunction;
+# log
+log_file_name="/var/log/wpbackuplog.txt"
+sudo touch $log_file_name;
+sudo chmod 766 $log_file_name;
+echo $NOW
 
-# '
-touch /var/log/wpbackuplog.txt;
-chmod 766 /var/log/wpbackuplog.txt;
-echo "test ok"
+# backup MYSQL database, gzip it and send to backup folder.
+mysqldump --opt -u$db_username  -p$db_password $db_name | gzip > $backup_folder_path/$db_backup_name 2>> $log_file_name
+
+# create a tarball of the wordpress files, gzip it and send to backup folder.
+tar -czf $backup_folder_path/$wpfiles_backup_name --transform $WWW_TRANSFORM $wp_folder 2>> $log_file_name
+
+# delete all but 2 recent wordpress database back-ups (files having .sql.gz extension) in backup folder.
+find $backup_folder_path -maxdepth 1 -name "*.sql.gz" -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm
+
+# delete all but 2 recent wordpress files back-ups (files having .tar.gz extension) in backup folder.
+find $backup_folder_path -maxdepth 1 -name "*.tar.gz" -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm
+
