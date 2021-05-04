@@ -37,7 +37,7 @@ find $backup_folder_path -maxdepth 1 -name "*.tar.gz" -type f | xargs -x ls -t |
 
 # Copy to ftp server with secure connection
 cd /home/theseus/wp_backup
-sftp wpsftp@srv-wp-22 << EOF
+sftp wpsftp@srv-sftp-01 << EOF
 cd wpbackup
 pwd
 put *.*
@@ -45,7 +45,7 @@ exit
 EOF
 
 # rotation of backups to avoid an accumulation of backup files
-ssh -t theseus@srv-wp-22 "
+ssh -t theseus@srv-sftp-01 "
 cd /home/wpsftp/wpbackup
 find -maxdepth 1 -name '*.sql.gz' -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm
 find -maxdepth 1 -name '*.tar.gz' -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm
