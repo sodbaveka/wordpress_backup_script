@@ -14,6 +14,11 @@ My name is Mickaël alias sodbaveka.
 I created this repository as a lab to discover git, gitHub, Bash, Python and Ansible.
 
 My project as a learner is to create a bash script to automate the backup of a wordpress website.
+The backup script takes care of :
+- Creating the Files Archive and the MySQL Backup
+- Cleaning Up & Compressing
+- Uploading Backup Files to ftp server with secure connexion
+- Cleaning up backups to avoid a build-up of backup files
 
 Please feel free to message me if you have any questions.
 
@@ -34,7 +39,7 @@ $  git clone
 * Launch :
 ```
 $ cd ../path/to/the/file
-$ TO COMPLETE
+$ ./wpbackup.sh
 ```
 
 ### License
