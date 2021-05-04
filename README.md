@@ -33,7 +33,7 @@ A list of technologies used within the project :
 ***
 * Download :
 ```
-$  git clone 
+$  git clone https://github.com/sodbaveka/wordpress_backup_script.git
 ```
 
 * Launch :
