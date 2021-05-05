@@ -43,7 +43,7 @@ rm $db_backup_name
 read files_backup_name < <(cat .temp_file.tmp | sed -n '2 p')
 tar -xzf $files_backup_name && echo "$files_backup_name décompressé"
 rm $files_backup_name
-sudo cp -rf wordpress /var/www/sodbaveka/ && echo "website restored"
+cp -rf wordpress /var/www/sodbaveka/ && echo "website restored"
 rm -fr wordpress
 rm .temp_file.tmp
 
