@@ -18,7 +18,7 @@ db_username="theseus"
 db_password="theseus"
 
 echo "Script exécuté le" $NOW
-
+mkdir "$backup_folder_path" 2>>/dev/null
 # backup MYSQL database, gzip it and send to backup folder.
 mysqldump --opt -u$db_username  -p$db_password $db_name | gzip > $backup_folder_path/$db_backup_name && echo "dump mysql OK"
 
@@ -33,8 +33,8 @@ find $backup_folder_path -maxdepth 1 -name "*.tar.gz" -type f | xargs -x ls -t |
 
 # Copy to ftp server with secure connection
 cd /home/theseus/wp_backup
-sftp wpsftp@srv-sftp-01 << EOF
-cd wpbackup
+sftp theseus@srv-sftp-01 << EOF
+cd /home/wpsftp/wpbackup
 pwd
 put *.*
 EOF
