@@ -14,6 +14,7 @@ My name is Mickaël alias sodbaveka.
 I created this repository as a lab to discover git, gitHub, Bash, Python and Ansible.
 
 My project as a learner is to create bash scripts to automate the backup and restoration of a wordpress website.
+
 The backup script takes care of :
 - Creating the Files Archive and the MySQL Backup
 - Cleaning Up & Compressing
