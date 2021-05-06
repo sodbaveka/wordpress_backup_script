@@ -10,7 +10,7 @@ WWW_TRANSFORM='s,^var/www/wordpress,wordpress,'
 backup_folder_path="/home/theseus/wp_backup"
 
 # path to my WordPress website
-wp_folder="/var/www/wordpress"
+wp_folder="/var/www/sodbaveka/wordpress"
 
 # database connection info.
 db_name="WordPress"
@@ -26,10 +26,10 @@ mysqldump --opt -u$db_username  -p$db_password $db_name | gzip > $backup_folder_
 tar -czvf $backup_folder_path/$wpfiles_backup_name --transform $WWW_TRANSFORM $wp_folder && echo "tar archive OK"
 
 # delete all but 2 recent wordpress database back-ups (files having .sql.gz extension) in backup folder.
-find $backup_folder_path -maxdepth 1 -name "*.sql.gz" -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm
+find $backup_folder_path -maxdepth 1 -name "*.sql.gz" -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm 2>> /dev/null
 
 # delete all but 2 recent wordpress files back-ups (files having .tar.gz extension) in backup folder.
-find $backup_folder_path -maxdepth 1 -name "*.tar.gz" -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm
+find $backup_folder_path -maxdepth 1 -name "*.tar.gz" -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm 2>> /dev/null
 
 # Copy to ftp server with secure connection
 cd /home/theseus/wp_backup
