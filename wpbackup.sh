@@ -4,7 +4,7 @@
 NOW=$(date +"%Y-%m-%d-%H%M")
 db_backup_name="wp-db-backup-$NOW.sql.gz"
 wpfiles_backup_name="wp-files-backup-$NOW.tar.gz"
-WWW_TRANSFORM='s,^var/www/wordpress,wordpress,'
+WWW_TRANSFORM='s,^var/www/sodbaveka/wordpress,wordpress,'
 
 # path to my backup folder.
 backup_folder_path="/home/theseus/wp_backup"
