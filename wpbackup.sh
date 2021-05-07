@@ -5,6 +5,8 @@ NOW=$(date +"%Y-%m-%d-%H%M")
 db_backup_name="wp-db-backup-$NOW.sql.gz"
 wpfiles_backup_name="wp-files-backup-$NOW.tar.gz"
 WWW_TRANSFORM='s,^var/www/sodbaveka/wordpress,wordpress,'
+user_login="theseus"
+ftp_server="srv-sftp-01"
 
 # path to my backup folder.
 backup_folder_path="/home/theseus/wp_backup"
@@ -19,6 +21,7 @@ db_password="theseus"
 
 echo "Script exécuté le" $NOW
 mkdir "$backup_folder_path" 2>>/dev/null
+
 # backup MYSQL database, gzip it and send to backup folder.
 mysqldump --opt -u$db_username  -p$db_password $db_name | gzip > $backup_folder_path/$db_backup_name && echo "dump mysql OK"
 
@@ -33,14 +36,14 @@ find $backup_folder_path -maxdepth 1 -name "*.tar.gz" -type f | xargs -x ls -t |
 
 # Copy to ftp server with secure connection
 cd /home/theseus/wp_backup
-sftp  -i ~/.ssh/id_ecdsa theseus@srv-sftp-01 << EOF
+sftp  -i /home/"$user_login"/.ssh/id_rsa $user_login@s$ftp_server << EOF
 cd /home/wpsftp/wpbackup
 pwd
 put *.*
 EOF
 
 # rotation of backups to avoid an accumulation of backup files
-ssh theseus@srv-sftp-01 "cd /home/wpsftp/wpbackup
+ssh -i /home/"$user_login"/.ssh/id_rsa $user_login@s$ftp_server "cd /home/wpsftp/wpbackup
 find /home/wpsftp/wpbackup -maxdepth 1 -name '*.sql.gz' -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm 2>> /dev/null
 find /home/wpsftp/wpbackup -maxdepth 1 -name '*.tar.gz' -type f | xargs -x ls -t | awk 'NR>2' | xargs -L1 rm 2>> /dev/null"
 
