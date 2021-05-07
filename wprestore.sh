@@ -17,19 +17,20 @@ mysql_password="theseus"
 mkdir $destination_folder_path 2> /dev/null
 
 # Retrieving the names of the files to copy
-ssh  -i ~/.ssh/id_ecdsa $user_login@$ftp_server '
+ssh  -i /home/"$user_login"/.ssh/id_rsa $user_login@$ftp_server '
 cd /home/wpsftp/wpbackup
 find -maxdepth 1 -name "*.sql.gz" -type f | xargs -x ls -tr | awk "NR>1" | xargs -L1 basename > .temp_file.tmp
 find -maxdepth 1 -name "*.tar.gz" -type f | xargs -x ls -tr | awk "NR>1" | xargs -L1 basename >> .temp_file.tmp
 '
 
 cd $destination_folder_path
-scp  -i ~/.ssh/id_ecdsa $user_login@$ftp_server:"$source_folder_path"/.temp_file.tmp .temp_file.tmp && echo "list of files to download copied"
+scp -i /home/"$user_login"/.ssh/id_rsa $user_login@$ftp_server:"$source_folder_path"/.temp_file.tmp .temp_file.tmp && echo "list of files to download copied"
+echo "test"
 
 # Downloading files from ftp server with secure connection
 while read ligne
 do 		
-	sftp  -i ~/.ssh/id_ecdsa $user_login@$ftp_server:"$source_folder_path"/"$ligne"
+	sftp  -i /home/"$user_login"/.ssh/id_rsa $user_login@$ftp_server:"$source_folder_path"/"$ligne"
 done < .temp_file.tmp && echo "All downloads executed"
 
 # # Restoring wordpress database
@@ -46,8 +47,3 @@ rm $files_backup_name
 cp -rf wordpress /var/www/sodbaveka/ && echo "website restored"
 rm -fr wordpress
 rm .temp_file.tmp
-
-
-
-
-
