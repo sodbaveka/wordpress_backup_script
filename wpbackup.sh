@@ -33,7 +33,7 @@ find $backup_folder_path -maxdepth 1 -name "*.tar.gz" -type f | xargs -x ls -t |
 
 # Copy to ftp server with secure connection
 cd /home/theseus/wp_backup
-sftp theseus@srv-sftp-01 << EOF
+sftp  -i ~/.ssh/id_ecdsa theseus@srv-sftp-01 << EOF
 cd /home/wpsftp/wpbackup
 pwd
 put *.*
