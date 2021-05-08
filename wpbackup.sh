@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Debug mode
-#set -x 
+set -x 
 
 # my backups will use these filenames.
 NOW=$(date +"%Y-%m-%d-%H%M")
@@ -10,7 +10,7 @@ wpfiles_backup_name="wp-files-backup-$NOW.tar.gz"
 WWW_TRANSFORM='s,^var/www/sodbaveka/wordpress,wordpress,'
 user_login="theseus"
 ftp_server="srv-sftp-01"
-log_file="/home/$user_login/wprestore.log"
+log_file="/home/$user_login/wpbackup.log"
 
 # path to my backup folder.
 backup_folder_path="/home/theseus/wp_backup"
