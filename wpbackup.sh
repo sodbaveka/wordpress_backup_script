@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Debug mode
-set -x 
+#set -x 
 
 # my backups will use these filenames.
 NOW=$(date +"%Y-%m-%d-%H%M")
