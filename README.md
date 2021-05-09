@@ -21,6 +21,7 @@ The backup script takes care of :
 - Uploading Backup Files to ftp server with secure connexion
 - Uploading an incremental backup of wordpress files...useless...just for fun ;-)
 - Cleaning up backups to avoid a build-up of backup files
+
 (Do not forget to generate a key in RSA format to communicate between the web server and the ftp server)
 
 The restore script takes care of :
@@ -29,6 +30,7 @@ The restore script takes care of :
 - Downloading files from ftp server with secure connection
 - Restoring wordpress database
 - Restoring wordpress files
+
 (Do not forget to generate a key in RSA format to communicate between the web server and the ftp server)
 
 Please feel free to message me if you have any questions.
