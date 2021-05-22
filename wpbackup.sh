@@ -38,7 +38,7 @@ echo "**************************************************************************
 
 echo "Début d'exécution du script le" $NOW
 
-mkdir "$backup_folder_path" >> $log_file 2>&1
+mkdir -p "$backup_folder_path" >> $log_file 2>&1
 
 # Backup MYSQL database, gzip it and send to backup folder.
 mysqldump --opt -u$db_username  -p$db_password $db_name | gzip > $backup_folder_path/$db_backup_name && echo "dump mysql OK" 
